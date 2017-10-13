@@ -8,14 +8,15 @@
   "deviceType" : "fullscreen",
   "sharedPrototype" : true,
   "propertyPanelToggleStates" : {
-
+    "Filters" : false
   },
   "projectId" : "5BADE9DF-608E-4A0A-BF41-FC46A05C19B0",
   "deviceOrientation" : 0,
   "selectedHand" : "",
   "showBezel" : 0,
   "foldedCodeRanges" : [
-
+    "{0, 2116}",
+    "{2118, 1527}"
   ],
   "deviceScale" : 1
 }
