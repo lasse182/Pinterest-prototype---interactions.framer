@@ -102,7 +102,7 @@ buttonBottombar = new TextLayer
 
 # Set up FlowComponent
 flow = new FlowComponent
-flow.showNext(introScreen)
+flow.showNext(dropzoneScreen)
 
 # Switch on click
 buttonSidebar.onClick ->
@@ -230,6 +230,75 @@ backButton = new TextLayer
 backButton.onClick ->
 	flow.showPrevious()
 
+# Dropzone
+dropzone = new Layer
+	parent: dropzoneScreen
+	width: 100
+	height: 100
+	borderRadius: 75
+	backgroundColor: "STEELBLUE"
+	x: Align.right(-40)
+	y: Align.bottom(-40)
+	scale: 1
+	opacity: 0
+
+dropzoneText = new TextLayer
+	parent: dropzone
+	text: "Drop here"
+	fontSize: 18
+	textAlign: "center"
+	fontWeight: "bold"
+	color: "white"
+	textTransform: "uppercase"
+	x: Align.center()
+	y: Align.center()
+
+dropzonePopover = new Layer
+	parent: dropzoneScreen
+	width: 615
+	height: 690
+	x: Align.right(-40)
+	y: Align.bottom(-160)
+	backgroundColor: "#e9e9e9"
+	borderRadius: 5
+	opacity: 0
+
+renderItems = () =>
+	y = 20
+	for board, i in boards
+		sidebarItem = new Layer
+			parent: dropzonePopover
+			height: 50
+			backgroundColor: "#f9f9f9"
+			shadowColor: "e2e2e2"
+			y: y
+		
+		sidebarItemText = new TextLayer
+			text: board.name
+			parent: sidebarItem
+			color: "#555"
+			fontSize: 14
+			fontWeight: "bold"
+			y: Align.center
+			x: 20
+			
+		
+		sidebarItem.width = 270
+		sidebarItem.x = 20
+		
+		y = y+sidebarItem.height+10
+		
+		if i > 10
+			sidebarItem.x = 320
+		
+		if i == 10
+			y = 20
+		
+		if i > 20
+			sidebarItem.opacity = 0
+
+getBoards(renderItems)
+
 # Image
 image = new Layer
 	parent: dropzoneScreen
@@ -248,5 +317,16 @@ image.draggable.constraints =
 image.draggable.overdragScale = 1
 
 image.onDragStart ->
+	dropzone.animate
+		scale: 1
+		opacity: 1
+		options:
+			curve: Spring(damping: 0.5)
+			time: .5
 
 image.onDragEnd ->
+	dropzone.animate
+		scale: 0
+		opacity: 0
+		options:
+			time: .3
