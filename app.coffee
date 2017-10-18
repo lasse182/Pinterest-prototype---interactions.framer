@@ -102,7 +102,7 @@ buttonBottombar = new TextLayer
 
 # Set up FlowComponent
 flow = new FlowComponent
-flow.showNext(dropzoneScreen)
+flow.showNext(introScreen)
 
 # Switch on click
 buttonSidebar.onClick ->
@@ -209,6 +209,8 @@ renderItems = () =>
 getBoards(renderItems)
 
 
+PairModule = require "Pair"
+
 # Back button
 backButton = new TextLayer
 	parent: dropzoneScreen
@@ -296,6 +298,17 @@ renderItems = () =>
 		
 		if i > 20
 			sidebarItem.opacity = 0
+		
+		sidebarItem.onClick ->
+			dropzonePopover.animate
+				opacity: 0
+				options:
+					time: .1
+			
+			dropzone.animate
+				opacity: 0
+				options:
+					time: .1
 
 getBoards(renderItems)
 
@@ -324,9 +337,21 @@ image.onDragStart ->
 			curve: Spring(damping: 0.5)
 			time: .5
 
-image.onDragEnd ->
+myPair = new PairModule.Pair(image,dropzone)
+myPair.enableDragAndDrop()
+
+myPair.onContactDrop (dropped,dropTarget)->
+	dropzonePopover.animate
+		opacity: 1
+		options:
+			time: .3
+
+myPair.onInvalidContactDrop (dropped) ->
 	dropzone.animate
 		scale: 0
 		opacity: 0
 		options:
-			time: .3
+			curve: Spring(damping: 0.5)
+			time: .5
+		
+	
